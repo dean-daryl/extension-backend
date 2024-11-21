@@ -61,7 +61,6 @@ public class TechnologyService implements ITechnologyService {
     private List<String> extractTechnologiesFromResponse(String text) {
         RestTemplate restTemplate = new RestTemplate();
 
-        // Build the request payload
         Map<String, Object> requestPayload = new HashMap<>();
         requestPayload.put("response_as_dict", true);
         requestPayload.put("attributes_as_list", false);
