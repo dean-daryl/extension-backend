@@ -6,6 +6,8 @@ import com.example.somatekbackend.models.Technology;
 import com.example.somatekbackend.repository.ITechnologyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -21,6 +23,7 @@ import java.util.*;
 
 @Service
 public class TechnologyService implements ITechnologyService {
+    private static final Logger log = LoggerFactory.getLogger(TechnologyService.class);
     @Value("${edenAi.ner.apiUrl}")
     private String edenAiApiUrl;
 
@@ -66,7 +69,7 @@ public class TechnologyService implements ITechnologyService {
         requestPayload.put("attributes_as_list", false);
         requestPayload.put("show_base_64", true);
         requestPayload.put("show_original_response", false);
-        requestPayload.put("entities", List.of("Technology", "Concept"));
+        requestPayload.put("entities", List.of("Technology"));
         requestPayload.put("text", text);
         requestPayload.put("providers", List.of("openai"));
 
@@ -89,10 +92,35 @@ public class TechnologyService implements ITechnologyService {
             for (Map<String, Object> item : items) {
                 String entity = (String) item.get("entity");
                 String category = (String) item.get("category");
-                // Only add entities classified as "Technology"
                 if ("Technology".equalsIgnoreCase(category)) {
                     technologies.add(entity);
                 }
+                else if ("Organization".equalsIgnoreCase(entity)) {
+                    technologies.add(entity);
+                }
+                else if ("Company".equalsIgnoreCase(entity)) {
+                    technologies.add(entity);
+                }
+                else if ("Tool".equalsIgnoreCase(entity)) {
+                    technologies.add(entity);
+                }
+                else if ("Package".equalsIgnoreCase(entity)) {
+                    technologies.add(entity);
+                }
+                else if("Software".equalsIgnoreCase(entity)) {
+                    technologies.add(entity);
+                }
+                else if("Operating System".equalsIgnoreCase(entity)) {
+                    technologies.add(entity);
+                }
+                else if("Computer Program".equalsIgnoreCase(entity)) {
+                    technologies.add(entity);
+                }
+                else {
+                    log.error("Failed to extract technologies from response", entity);
+                }
+
+
             }
             return technologies;
         }

@@ -38,7 +38,7 @@ public class SecurityConfig {
                     CorsConfiguration config = new CorsConfiguration();
                     config.addAllowedOriginPattern("*");
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
-                    config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                    config.setAllowedHeaders(List.of("*"));
                     return config;
                 }))
                 .csrf(AbstractHttpConfigurer::disable)
@@ -47,7 +47,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers("/public/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.POST, "/technology/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/technology/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/technology/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/recent-activity/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/recent-activity/**").permitAll()
                         .anyRequest().authenticated())
                 .authenticationManager(authenticationManager)
                 .build();
