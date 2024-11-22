@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface IRecentActivityRepository extends MongoRepository<RecentActivity, String> {
-    @Query(value = "{ 'userId': ?0 }", fields = "{ '_id':1, 'title': 1, 'updatedAt': 1 }")
+    @Query(value = "{ 'userId': ?0 }", fields = "{ '_id':1, 'title': 1, 'updatedAt': 1 , 'conversationType' : 1}")
     Page<RecentActivityDto> findByUserId(String userId, Pageable pageable);
 
     @Query(value = "{ 'userId': ?0, 'updatedAt': { $gte: ?1, $lt: ?2 } }",
-            fields = "{'_id': 1, 'title': 1, 'updatedAt': 1 }")
+            fields = "{'_id': 1, 'title': 1, 'updatedAt': 1, 'conversationType' : 1 }")
     Page<RecentActivityDto> findByUserIdAndDateRange(String userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 
 }

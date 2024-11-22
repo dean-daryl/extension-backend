@@ -1,5 +1,6 @@
 package com.example.somatekbackend.models;
 
+import com.example.somatekbackend.dto.ERequestType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,8 @@ public class RecentActivity {
     private String title;
 
     private Map<String, String> conversation;
+
+    private ERequestType conversationType;
 
     private String userId;
 

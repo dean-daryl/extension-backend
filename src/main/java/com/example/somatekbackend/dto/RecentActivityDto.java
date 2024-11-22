@@ -12,7 +12,7 @@ public class RecentActivityDto {
     private String id;
     private String title;
     private String userId;
-    private ERequestType requestType;
+    private ERequestType conversationType;
     private Map<String, String> conversation;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

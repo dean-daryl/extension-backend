@@ -49,6 +49,7 @@ public class RecentActivityService implements IRecentActivityService{
         recentActivity.setTitle(this.generateTitle(title));
         recentActivity.setConversation(recentActivityDto.getConversation());
         recentActivity.setUserId(recentActivityDto.getUserId());
+        recentActivity.setConversationType(recentActivityDto.getConversationType());
         recentActivity.setCreatedAt(LocalDateTime.now());
         recentActivity.setUpdatedAt(LocalDateTime.now());
 
