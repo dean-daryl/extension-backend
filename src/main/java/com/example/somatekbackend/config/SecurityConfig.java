@@ -38,7 +38,7 @@ public class SecurityConfig {
                     CorsConfiguration config = new CorsConfiguration();
                     config.addAllowedOriginPattern("*");
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
-                    config.setAllowedHeaders(List.of("*"));
+                    config.setAllowedHeaders(List.of("http://localhost:5173"));
                     return config;
                 }))
                 .csrf(AbstractHttpConfigurer::disable)
