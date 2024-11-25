@@ -62,7 +62,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:5173"); // Add frontend origin
+        config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedOrigin("https://somatek-frontend.netlify.app");
         config.addAllowedOrigin("chrome-extension://ikekikpmannhellnipheaddooioilnba"); // Add Chrome extension origin
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of(
