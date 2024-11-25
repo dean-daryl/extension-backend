@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   app:
     build:
@@ -6,33 +8,31 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/somatek
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/somatek
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
     depends_on:
-      mariadb:
+      postgres:
         condition: service_healthy
       mongo:
         condition: service_started
 
-  mariadb:
-    image: mariadb:11.4.2
-    container_name: mariadb
+  postgres:
+    image: postgres:15
+    container_name: postgres
     ports:
-      - "3307:3307"
+      - "5432:5432"
     environment:
-      MARIADB_DATABASE: somatekai-backend
-      MARIADB_USER: root
-      MARIADB_PASSWORD: root
-      MARIADB_ROOT_PASSWORD: root
+      POSTGRES_DB: somatek
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
-      start_period: 10s
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 5
 
   mongo:
     image: mongo:6
@@ -43,5 +43,5 @@ services:
       - mongo-data:/data/db
 
 volumes:
-  mariadb-data:
+  postgres-data:
   mongo-data:
