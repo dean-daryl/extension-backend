@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build:
@@ -12,21 +10,29 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
     depends_on:
-      - mariadb
-      - mongo
+      mariadb:
+        condition: service_healthy
+      mongo:
+        condition: service_started
 
   mariadb:
-    image: mariadb:latest
+    image: mariadb:11.4.2
     container_name: mariadb
     ports:
       - "3307:3307"
     environment:
-      MARIADB_DATABASE: somatek
+      MARIADB_DATABASE: somatekai-backend
       MARIADB_USER: root
       MARIADB_PASSWORD: root
       MARIADB_ROOT_PASSWORD: root
     volumes:
       - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   mongo:
     image: mongo:6

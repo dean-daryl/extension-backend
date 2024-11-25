@@ -1,14 +1,20 @@
-# Use a base image with Java 21
-FROM openjdk:21-jdk-slim
-
-# Set the working directory inside the container
+# Stage 1: Build the application
+FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 
-# Copy the built application JAR into the container
-COPY target/somatekai-0.0.1-SNAPSHOT.jar app.jar
+# Copy the Maven project files
+COPY pom.xml .
+COPY src ./src
 
-# Expose the application port
-EXPOSE 8080
+# Build the application while skipping tests
+RUN mvn clean package -DskipTests
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Stage 2: Create the runtime image
+FROM eclipse-temurin:21-alpine
+WORKDIR /app
+
+# Copy the JAR file from the build stage
+COPY --from=build /app/target/somatekai-0.0.1-SNAPSHOT.jar app.jar
+
+# Define the command to run the application
+CMD ["java", "-jar", "app.jar"]
