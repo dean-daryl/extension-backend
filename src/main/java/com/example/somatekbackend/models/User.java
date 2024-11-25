@@ -1,5 +1,6 @@
 package com.example.somatekbackend.models;
 
+import com.example.somatekbackend.dto.ERole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -21,6 +22,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
     private String password;
+    private ERole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

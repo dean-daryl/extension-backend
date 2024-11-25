@@ -1,5 +1,6 @@
 package com.example.somatekbackend.service;
 
+import com.example.somatekbackend.dto.ERole;
 import com.example.somatekbackend.dto.LoginRequest;
 import com.example.somatekbackend.dto.LoginResponse;
 import com.example.somatekbackend.dto.UserDto;
@@ -119,7 +120,7 @@ public class OAuthService implements IOAuthService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String token = tokenUtil.generateToken(userDetails);
-            return new LoginResponse(token, "Bearer", user.getId(), user.getEmail(), user.getEmail(), user.getFirstName(), user.getLastName());
+            return new LoginResponse(token, "Bearer", user.getId(), user.getEmail(), user.getEmail(), user.getFirstName(), user.getLastName(), String.valueOf(user.getRole()));
 
         } catch (BadCredentialsException e) {
             throw new RuntimeException("Invalid username or password");

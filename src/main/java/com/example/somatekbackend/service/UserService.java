@@ -1,5 +1,6 @@
 package com.example.somatekbackend.service;
 
+import com.example.somatekbackend.dto.ERole;
 import com.example.somatekbackend.dto.UserDto;
 import com.example.somatekbackend.exception.ResourceExistsException;
 import com.example.somatekbackend.models.User;
@@ -25,6 +26,7 @@ public class UserService implements IUserService {
         newUser.setEmail(userDto.getEmail());
         newUser.setFirstName(userDto.getFirstName());
         newUser.setLastName(userDto.getLastName());
+        newUser.setRole(ERole.valueOf(userDto.getRole()));
         String encryptedPassword = passwordEncoder.encode(userDto.getPassword());
         newUser.setPassword(encryptedPassword);
 
